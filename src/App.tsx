@@ -44,6 +44,7 @@ export default function App() {
 
   const [loadingConfig, setLoadingConfig] = useState(false);
   const [configError, setConfigError] = useState(false);
+  const [visitorUnlocked, setVisitorUnlocked] = useState(false);
 
   // Admin Section States
   const [showAdminPanel, setShowAdminPanel] = useState(false);
@@ -273,7 +274,7 @@ export default function App() {
     <div className="relative min-h-screen text-slate-100 flex flex-col justify-between overflow-x-hidden selection:bg-rose-500/30">
       
       {/* 1. STARRY ATMOSPHERIC CANVAS */}
-      <StarryBackground />
+      <StarryBackground isUnlocked={visitorUnlocked} />
 
       {/* Main Container */}
       <main className="flex-1 w-full flex flex-col items-center justify-start">
@@ -304,7 +305,7 @@ export default function App() {
                   <VisitorPortal
                     publicConfig={publicConfig}
                     onUnlockSuccess={(data) => {
-                      // Optionally track her entrance locally or load her unlock
+                      setVisitorUnlocked(true);
                     }}
                   />
                 </motion.div>
