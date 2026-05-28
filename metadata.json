@@ -1,5 +1,5 @@
 {
-  "name": "Nossa História",
+  "name": "Cartas para Larissa",
   "description": "Um portal íntimo e interativo para reviver memórias, ler cartas escritas com amor e reencontrar nossos momentos especiais.",
   "requestFramePermissions": [],
   "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
