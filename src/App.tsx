@@ -24,6 +24,7 @@ import {
 import StarryBackground from "./components/StarryBackground";
 import VisitorPortal from "./components/VisitorPortal";
 import { StoryData, StoryConfig, Letter, TimelineEvent } from "./types";
+import { staticStoryData } from "./staticData";
 
 export default function App() {
   // Public Configuration (loaded initially)
@@ -33,9 +34,15 @@ export default function App() {
     coupleName1: string;
     coupleName2: string;
     introText: string;
-  } | null>(null);
+  }>({
+    question: staticStoryData.config.securityQuestion,
+    hint: staticStoryData.config.hint,
+    coupleName1: staticStoryData.config.coupleName1,
+    coupleName2: staticStoryData.config.coupleName2,
+    introText: staticStoryData.config.introText
+  });
 
-  const [loadingConfig, setLoadingConfig] = useState(true);
+  const [loadingConfig, setLoadingConfig] = useState(false);
   const [configError, setConfigError] = useState(false);
 
   // Admin Section States
@@ -141,10 +148,24 @@ export default function App() {
         setPublicConfig(data);
         setConfigError(false);
       } else {
-        setConfigError(true);
+        setPublicConfig({
+          question: staticStoryData.config.securityQuestion,
+          hint: staticStoryData.config.hint,
+          coupleName1: staticStoryData.config.coupleName1,
+          coupleName2: staticStoryData.config.coupleName2,
+          introText: staticStoryData.config.introText
+        });
+        setConfigError(false);
       }
     } catch {
-      setConfigError(true);
+      setPublicConfig({
+        question: staticStoryData.config.securityQuestion,
+        hint: staticStoryData.config.hint,
+        coupleName1: staticStoryData.config.coupleName1,
+        coupleName2: staticStoryData.config.coupleName2,
+        introText: staticStoryData.config.introText
+      });
+      setConfigError(false);
     } finally {
       setLoadingConfig(false);
     }
@@ -267,25 +288,8 @@ export default function App() {
           </div>
         )}
 
-        {/* Fallback error starting */}
-        {!loadingConfig && configError && (
-          <div className="flex flex-col items-center justify-center min-h-[60vh] max-w-sm text-center p-6 bg-slate-900/80 border border-rose-500/20 rounded-2xl mx-4 my-10">
-            <RotateCcw className="w-10 h-10 text-rose-400 mb-4 animate-spin" style={{ animationDuration: '4s' }} />
-            <h3 className="font-serif text-lg text-slate-200 font-semibold">Problema ao abrir baú</h3>
-            <p className="text-xs text-slate-400 mt-2">
-              Não conseguimos encontrar sua banco de dados. Toque abaixo para tentar reinicializar o baú de memórias.
-            </p>
-            <button
-              onClick={fetchPublicConfig}
-              className="mt-6 px-4 py-2 rounded-xl bg-rose-500 text-white text-xs font-semibold cursor-pointer transition-all active:scale-95"
-            >
-              Recarregar Portal
-            </button>
-          </div>
-        )}
-
         {/* A. VISITOR STORY PORTAL OR B. ADMIN CONTROL */}
-        {!loadingConfig && !configError && publicConfig && (
+        {!loadingConfig && publicConfig && (
           <div className="w-full">
             <AnimatePresence mode="wait">
               {!showAdminPanel ? (
